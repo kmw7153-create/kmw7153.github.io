@@ -2,15 +2,54 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>이미지 새창 띄우기</title>
+  <title>이미지 새 창으로 보기</title>
+  <style>
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .thumbnail {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      transition: transform 0.2s;
+    }
+    .thumbnail:hover {
+      transform: scale(1.1);
+    }
+  </style>
   <script>
-    function openImageInNewWindow() {
-      window.open('image.jpg', '_blank', 'width=800,height=600');
+    function openImage(num) {
+      const imageUrl = `${num}.png`;
+      window.open(imageUrl, '_blank', 'width=800,height=600');
     }
   </script>
 </head>
 <body>
-  <h1>이미지를 새 창으로 열기</h1>
-  <button onclick="openImageInNewWindow()">이미지 열기</button>
+  <h1>이미지 목록 (1~20)</h1>
+  <div class="gallery">
+    <!-- 썸네일 생성 -->
+    <!-- JavaScript 없이 HTML만 쓸 경우 수동 작성 -->
+    <!-- JavaScript로 자동 생성하려면 아래 스크립트 참고 -->
+    <!-- 예: -->
+    <!-- <img src="1.png" class="thumbnail" onclick="openImage(1)"> -->
+
+    <!-- JavaScript로 썸네일 자동 생성 -->
+  </div>
+
+  <script>
+    const gallery = document.querySelector('.gallery');
+    for (let i = 1; i <= 20; i++) {
+      const img = document.createElement('img');
+      img.src = `${i}.png`;
+      img.className = 'thumbnail';
+      img.alt = `이미지 ${i}`;
+      img.onclick = () => openImage(i);
+      gallery.appendChild(img);
+    }
+  </script>
 </body>
 </html>
