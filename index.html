@@ -24,43 +24,48 @@
     }
   </style>
   <script>
-    function openImageInActualSize(num) {
+    function openImageFixedSize(num) {
       const imgSrc = `${num}.png`;
-      const win = window.open('', '_blank');
 
-      // 새 창 내용 작성
+      // 새 창 열기 (사이즈 고정)
+      const win = window.open('', '_blank', 'width=220,height=240'); // 이미지 + 여백 고려
+
+      // 새 창에 HTML 작성 (이미지 200x200 고정 크기)
       win.document.write(`
         <!DOCTYPE html>
-        <html>
+        <html lang="ko">
         <head>
           <meta charset="UTF-8">
           <title>이미지 ${num}</title>
           <style>
-            body { margin: 0; display: flex; justify-content: center; align-items: center; background: #000; }
-            img { display: block; max-width: 100%; height: auto; }
+            body {
+              margin: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              background: #000;
+            }
+            img {
+              width: 200px;
+              height: 200px;
+              object-fit: cover;
+              border: 1px solid #fff;
+            }
           </style>
         </head>
         <body>
-          <img id="fullImage" src="${imgSrc}" alt="이미지 ${num}">
+          <img src="${imgSrc}" alt="이미지 ${num}">
         </body>
         </html>
       `);
 
-      // 창 크기 조정 (이미지 로드 후)
       win.document.close();
-      win.onload = () => {
-        const image = win.document.getElementById('fullImage');
-        image.onload = () => {
-          const width = image.naturalWidth;
-          const height = image.naturalHeight;
-          win.resizeTo(width + 20, height + 40); // 스크롤바 및 여백 포함
-        };
-      };
     }
   </script>
 </head>
 <body>
-  <h1>이미지 갤러리 (1~20)</h1>
+  <h1>이미지 갤러리 (200x200 고정)</h1>
   <div class="gallery" id="gallery"></div>
 
   <script>
@@ -70,7 +75,7 @@
       img.src = `${i}.png`;
       img.className = 'thumbnail';
       img.alt = `이미지 ${i}`;
-      img.onclick = () => openImageInActualSize(i);
+      img.onclick = () => openImageFixedSize(i);
       gallery.appendChild(img);
     }
   </script>
