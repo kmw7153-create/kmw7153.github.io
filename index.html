@@ -2,82 +2,53 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>이미지 갤러리</title>
+  <title>이미지 새 창으로 보기</title>
   <style>
     .gallery {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
-
     .thumbnail {
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
       cursor: pointer;
       border: 1px solid #ccc;
       transition: transform 0.2s;
     }
-
     .thumbnail:hover {
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
   </style>
+  <script>
+    function openImage(num) {
+      const imageUrl = `${num}.png`;
+      window.open(imageUrl, '_blank', 'width=800,height=600');
+    }
+  </script>
 </head>
 <body>
-  <h1>이미지 갤러리 (200x200)</h1>
-  <div class="gallery" id="gallery"></div>
+  <h1>이미지 목록 (1~20)</h1>
+  <div class="gallery">
+    <!-- 썸네일 생성 -->
+    <!-- JavaScript 없이 HTML만 쓸 경우 수동 작성 -->
+    <!-- JavaScript로 자동 생성하려면 아래 스크립트 참고 -->
+    <!-- 예: -->
+    <!-- <img src="1.png" class="thumbnail" onclick="openImage(1)"> -->
+
+    <!-- JavaScript로 썸네일 자동 생성 -->
+  </div>
 
   <script>
-    const gallery = document.getElementById('gallery');
-
+    const gallery = document.querySelector('.gallery');
     for (let i = 1; i <= 20; i++) {
       const img = document.createElement('img');
       img.src = `${i}.png`;
       img.className = 'thumbnail';
       img.alt = `이미지 ${i}`;
-      img.onclick = () => openImageInNewWindow(`${i}.png`);
+      img.onclick = () => openImage(i);
       gallery.appendChild(img);
-    }
-
-    function openImageInNewWindow(imgUrl) {
-      const popup = window.open('', '_blank', 'width=220,height=240');
-
-      if (!popup) {
-        alert('팝업 차단이 감지되었습니다. 팝업 차단을 해제해 주세요.');
-        return;
-      }
-
-      popup.document.write(`
-        <!DOCTYPE html>
-        <html lang="ko">
-        <head>
-          <meta charset="UTF-8">
-          <title>이미지 보기</title>
-          <style>
-            body {
-              margin: 0;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              background: #000;
-            }
-            img {
-              width: 200px;
-              height: 200px;
-              object-fit: cover;
-              border: 1px solid #fff;
-            }
-          </style>
-        </head>
-        <body>
-          <img src="${imgUrl}" alt="팝업 이미지">
-        </body>
-        </html>
-      `);
-
-      popup.document.close();
     }
   </script>
 </body>
