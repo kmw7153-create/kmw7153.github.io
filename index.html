@@ -23,20 +23,37 @@
       transform: scale(1.05);
     }
   </style>
+</head>
+<body>
+  <h1>이미지 갤러리 (200x200)</h1>
+  <div class="gallery" id="gallery"></div>
+
   <script>
-    function openImageFixedSize(num) {
-      const imgSrc = `${num}.png`;
+    const gallery = document.getElementById('gallery');
 
-      // 새 창 열기 (사이즈 고정)
-      const win = window.open('', '_blank', 'width=220,height=240'); // 이미지 + 여백 고려
+    for (let i = 1; i <= 20; i++) {
+      const img = document.createElement('img');
+      img.src = `${i}.png`;
+      img.className = 'thumbnail';
+      img.alt = `이미지 ${i}`;
+      img.onclick = () => openImageInNewWindow(`${i}.png`);
+      gallery.appendChild(img);
+    }
 
-      // 새 창에 HTML 작성 (이미지 200x200 고정 크기)
-      win.document.write(`
+    function openImageInNewWindow(imgUrl) {
+      const popup = window.open('', '_blank', 'width=220,height=240');
+
+      if (!popup) {
+        alert('팝업 차단이 감지되었습니다. 팝업 차단을 해제해 주세요.');
+        return;
+      }
+
+      popup.document.write(`
         <!DOCTYPE html>
         <html lang="ko">
         <head>
           <meta charset="UTF-8">
-          <title>이미지 ${num}</title>
+          <title>이미지 보기</title>
           <style>
             body {
               margin: 0;
@@ -55,28 +72,12 @@
           </style>
         </head>
         <body>
-          <img src="${imgSrc}" alt="이미지 ${num}">
+          <img src="${imgUrl}" alt="팝업 이미지">
         </body>
         </html>
       `);
 
-      win.document.close();
-    }
-  </script>
-</head>
-<body>
-  <h1>이미지 갤러리 (200x200 고정)</h1>
-  <div class="gallery" id="gallery"></div>
-
-  <script>
-    const gallery = document.getElementById('gallery');
-    for (let i = 1; i <= 20; i++) {
-      const img = document.createElement('img');
-      img.src = `${i}.png`;
-      img.className = 'thumbnail';
-      img.alt = `이미지 ${i}`;
-      img.onclick = () => openImageFixedSize(i);
-      gallery.appendChild(img);
+      popup.document.close();
     }
   </script>
 </body>
